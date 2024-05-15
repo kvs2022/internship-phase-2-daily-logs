@@ -21,6 +21,7 @@
 
 --- Part 4: Combining Operators for Complex Queries
     --- Task 4.1: High-Value Customers in Specific Regions: Identify customers who have made payments in the top 10% of all payments and are located in specific geographic regions.
+        
 
     --- Task 4.2: Seasonal Sales Analysis: Analyze sales data to identify products with significantly higher sales in specific seasons compared to their annual sales average.
 
