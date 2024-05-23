@@ -14,19 +14,8 @@
     create view daily_top_product as select date(orderDate) as order_date, productCode, sum(quantityOrdered) as total_quantity from orders join orderdetails using (orderNumber) group by order_date, productCode order by total_quantity desc;
     
     -- Finally, combine these views to produce the required daily report.
-    create view daily_report as
-select ds.order_date, ds.total_sales, do.num_orders, dtp.productCode as top_product, dtp.total_quantity
-from daily_sales ds
-join daily_orders do on ds.order_date = do.order_date
-join (
-  select dtp1.order_date, dtp1.productCode, dtp1.total_quantity
-  from daily_top_product dtp1
-  join (
-    select order_date, max(total_quantity) as max_quantity
-    from daily_top_product
-    group by order_date
-  ) dtp2 on dtp1.order_date = dtp2.order_date and dtp1.total_quantity = dtp2.max_quantity
-) dtp on ds.order_date = dtp.order_date;
+    create view daily_report as select ds.order_date, ds.total_sales, do.num_orders, dtp.productCode as top_product, dtp.total_quantity from daily_sales ds
+    join daily_orders do on ds.order_date = do.order_date join ( select dtp1.order_date, dtp1.productCode, dtp1.total_quantity from daily_top_product dtp1 join (select order_date, max(total_quantity) as max_quantity from daily_top_product group by order_date ) dtp2 on dtp1.order_date = dtp2.order_date and dtp1.total_quantity = dtp2.max_quantity ) dtp on ds.order_date = dtp.order_date;
 
 
 -- Scenario 2: Sales Monitoring System
